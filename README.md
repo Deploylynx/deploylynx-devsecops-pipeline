@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="deploylynx-logo.gif" width="220">
+<img src="https://raw.githubusercontent.com/Deploylynx-tech/deploylynx-devsecops-pipeline/main/deploylynx-logo.gif" width="220">
 </p>
 
 
