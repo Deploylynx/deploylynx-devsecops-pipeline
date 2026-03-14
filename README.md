@@ -1,7 +1,7 @@
-<p align="center">
-<img src="deploylynx-logo.gif" width="220"/>
-</p>
 
+<p align="center">
+<img src="deploylynx-logo.gif" width="220">
+</p>
 
 
 # 🚀 DeployLynx DevSecOps CI/CD Pipeline
