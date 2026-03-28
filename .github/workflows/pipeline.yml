@@ -14,12 +14,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Trivy
+         - name: Install Trivy (fixed)
         run: |
           sudo apt-get update
-          sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.48.0_Linux-64bit.deb
-          sudo dpkg -i trivy_0.48.0_Linux-64bit.deb
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
 
       - name: Run Trivy Scan
-        run: trivy fs . 
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
