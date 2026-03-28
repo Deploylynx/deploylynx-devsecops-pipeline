@@ -1,37 +1,27 @@
-name: CI/CD Pipeline
+name: DeployLynx CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-scan:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout your code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Python (if needed for your app)
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      # 3️⃣ Install dependencies
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      # 4️⃣ Build Docker image
+      # 2️⃣ Build Docker image
       - name: Build Docker image
         run: docker build -t deploylynx-app .
 
-      # 5️⃣ Install Trivy (fixed method)
+      # 3️⃣ Install Trivy (fixed method)
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -41,6 +31,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      # 6️⃣ Run Trivy scan
-      - name: Security Scan with Trivy
+      # 4️⃣ Run Trivy scan on filesystem (app directory)
+      - name: Security Scan - Filesystem
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+
+      # 5️⃣ Run Trivy scan on Docker image
+      - name: Security Scan - Docker Image
         run: trivy image --exit-code 1 --severity HIGH,CRITICAL deploylynx-app
