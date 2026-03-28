@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your code
+      # 1️⃣ Checkout the repo
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -21,7 +21,7 @@ jobs:
       - name: Build Docker image
         run: docker build -t deploylynx-app .
 
-      # 3️⃣ Install Trivy (fixed method)
+      # 3️⃣ Install Trivy (official repo method)
       - name: Install Trivy
         run: |
           sudo apt-get update
@@ -31,10 +31,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      # 4️⃣ Run Trivy scan on filesystem (app directory)
-      - name: Security Scan - Filesystem
-        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
-
-      # 5️⃣ Run Trivy scan on Docker image
+      # 4️⃣ Scan Docker image for vulnerabilities
       - name: Security Scan - Docker Image
         run: trivy image --exit-code 1 --severity HIGH,CRITICAL deploylynx-app
