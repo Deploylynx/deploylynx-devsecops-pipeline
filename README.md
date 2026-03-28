@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="Deploylynx.com%20Log.gif" width="220">
+<img src="Deploylynx%20Log.gif" width="220">
 </p>
 
 
